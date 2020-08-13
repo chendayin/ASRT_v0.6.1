@@ -60,16 +60,19 @@ class Record:
         while self._running:
             data = stream.read(self.CHUNK)
             self._frames.append(data)
-        # 停止读取输入流
-        stream.stop_stream()
-        # 关闭输入流
-        stream.close()
-        # 结束pyaudio
-        p.terminate()
-        return
 
+    def __recognition(self, wave_data):
+        url = 'http://127.0.0.1:20000/'
+        token = 'qwertasd'
+        data = {'token': token, 'fs': RATE, 'wavs': wave_data}
+        r = requests.post(url, data)
 
-# 识别接口 实时识别声卡录制的声音
+        r.encoding = 'utf-8'
+
+        return r.text
+
+    # 识别接口 实时识别声卡录制的声音
+
 
 def recognition(wave_data):
     url = 'http://127.0.0.1:20000/'
@@ -95,8 +98,9 @@ def main():
     record.start()
     running = True
     while running:
-        time.sleep(1)
+        time.sleep(2)
         wave_data = read_buffer_data(b''.join(record._frames))
+        print(wave_data)
         record._frames = []
         txt = recognition(wave_data)
         print(txt, end='')

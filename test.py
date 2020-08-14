@@ -7,6 +7,7 @@ import platform as plat
 from SpeechModel251 import ModelSpeech
 from LanguageModel2 import ModelLanguage
 from keras import backend as K
+from general_function.file_wav import read_wav_data
 
 datapath = ''
 modelpath = 'model_speech'
@@ -27,7 +28,7 @@ ms = ModelSpeech(datapath)
 
 ms.LoadModel(modelpath + 'speech_model251_e_0_step_625000.model')
 
-r = ms.RecognizeSpeech_FromFile('D:\\语音数据集\\ST-CMDS-20170001_1-OS\\20170001P00241I0052.wav')
+r = ms.RecognizeSpeech_FromFile("20170001P00001A0025.wav")
 
 K.clear_session()
 

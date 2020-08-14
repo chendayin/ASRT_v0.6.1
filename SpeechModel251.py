@@ -56,7 +56,6 @@ class ModelSpeech():  # 语音模型类
         隐藏层：全连接层
         输出层：全连接层，神经元数量为self.MS_OUTPUT_SIZE，使用softmax作为激活函数，
         CTC层：使用CTC的loss作为损失函数，实现连接性时序多输出
-
         '''
 
         input_data = Input(name='the_input', shape=(self.AUDIO_LENGTH, self.AUDIO_FEATURE_LENGTH, 1))
@@ -317,14 +316,12 @@ class ModelSpeech():  # 语音模型类
         r1 = r1[0]
 
         return r1
-        pass
 
     def RecognizeSpeech(self, wavsignal, fs):
         '''
         最终做语音识别用的函数，识别一个wav序列的语音
         不过这里现在还有bug
         '''
-
         # data = self.data
         # data = DataSpeech('E:\\语音数据集')
         # data.LoadDataList('dev')
@@ -364,8 +361,6 @@ class ModelSpeech():  # 语音模型类
 
         return r
 
-        pass
-
     @property
     def model(self):
         '''
@@ -396,5 +391,4 @@ if __name__ == '__main__':
 
     ms = ModelSpeech(datapath)
 
-    # ms.LoadModel(modelpath + 'speech_model251_e_0_step_625000.model')
     ms.TrainModel(datapath, epoch=50, batch_size=16, save_step=500)

@@ -23,13 +23,11 @@ def read_wav_data(filename):
     num_frame = wav.getnframes()  # 获取帧数
     num_channel = wav.getnchannels()  # 获取声道数
     framerate = wav.getframerate()  # 获取帧速率
-    num_sample_width = wav.getsampwidth()  # 获取实例的比特宽度，即每一帧的字节数
     str_data = wav.readframes(num_frame)  # 读取全部的帧
     wav.close()  # 关闭流
     wave_data = np.frombuffer(str_data, dtype=np.short)  # 将声音文件数据转换为数组矩阵形式
     wave_data.shape = -1, num_channel  # 按照声道数将数组整形，单声道时候是一列数组，双声道时候是两列的矩阵
     wave_data = wave_data.T  # 将矩阵转置
-    # wave_data = wave_data
     return wave_data, framerate
 
 
@@ -121,7 +119,7 @@ w = 0.54 - 0.46 * np.cos(2 * np.pi * (x) / (400 - 1))  # 汉明窗
 
 
 def GetFrequencyFeature3(wavsignal, fs):
-    if (16000 != fs):
+    if 16000 != fs:
         raise ValueError(
             '[Error] ASRT currently only supports wav audio files with a sampling rate of 16000 Hz, but this audio is ' + str(
                 fs) + ' Hz. ')
@@ -246,7 +244,7 @@ def get_wav_list(filename):
     dic_filelist = {}  # 初始化字典
     list_wavmark = []  # 初始化wav列表
     for i in txt_lines:
-        if (i != ''):
+        if i != '':
             txt_l = i.split(' ')
             dic_filelist[txt_l[0]] = txt_l[1]
             list_wavmark.append(txt_l[0])

@@ -28,9 +28,9 @@ class DataSpeech():
         self.type = type  # 数据类型，分为三种：训练集(train)、验证集(dev)、测试集(test)
 
         self.slash = ''
-        if (system_type == 'Windows'):
+        if system_type == 'Windows':
             self.slash = '\\'  # 反斜杠
-        elif (system_type == 'Linux'):
+        elif system_type == 'Linux':
             self.slash = '/'  # 正斜杠
         else:
             print('*[Message] Unknown System\n')

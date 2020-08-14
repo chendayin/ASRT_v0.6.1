@@ -2,12 +2,31 @@ import pyaudio
 import numpy as np
 import time
 import requests
-import socket
+from SpeechModel251 import ModelSpeech
+from LanguageModel2 import ModelLanguage
+from general_function.file_wav import read_wav_data
+import wave
+
+from aip import AipSpeech
+
+API_KEY = 'PotZGWTqDa6bLyAOYVUUersG'
+SECRET_KEY = 'sBzLocvhlgGhR9wtkj4jisefYTFkwkLb'
+APP_ID = '21930573'
+AUDIO_FILE = 'test.wav'
+DEV_PID = 1537
+client = AipSpeech(appId=APP_ID, apiKey=API_KEY, secretKey=SECRET_KEY)
 
 CHUNK = 1024
 CHANNELS = 1
 RATE = 16000
 FORMAT = pyaudio.paInt16
+datapath = './'
+modelpath = 'model_speech/'
+ms = ModelSpeech(datapath)
+ms.LoadModel(modelpath + 'speech_model251_e_0_step_625000.model')
+
+ml = ModelLanguage('model_language')
+ml.LoadModel()
 
 
 def findInternalRecordingDevice(p):
@@ -31,47 +50,33 @@ def read_buffer_data(buff_data):
     return wave_data
 
 
-def connect_socket(wave_data):
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    token = 'qwertasd'
-    client.setblocking(False)  # 这里设置成非阻塞
-    try:
-        client.connect(("127.0.0.1", 20000))  # 阻塞不会消耗cpu
-    except BlockingIOError as e:
-        pass
-    while True:
-        try:
-            post_request_info = '''POST /index HTTP/1.1
-            Host: 127.0.0.1:20000
-            Content-Type: application/x-www-form-urlencoded
-            Content-Length: 28
-            
-            token={}&fs={}&wavs={}'''.format(token, RATE, wave_data)
-            client.send(post_request_info.encode('utf8'))
-            res = client.recv(1024)
-            print(res)
-            break
-        except OSError as e:
-            pass
-
-
-def recognition(wave_data):
-    url = 'http://127.0.0.1:20000/'
-    token = 'qwertasd'
-    data = {'token': token, 'fs': RATE, 'wavs': wave_data}
-    r = requests.post(url, data)
-
-    r.encoding = 'utf-8'
-
-    return r.text
+def save_buffer_data2wav(buff_data):
+    # 创建pyAudio对象
+    p = pyaudio.PyAudio()
+    # 打开用于保存数据的文件
+    wf = wave.open(AUDIO_FILE, 'wb')
+    # 设置音频参数
+    wf.setnchannels(CHANNELS)
+    wf.setsampwidth(p.get_sample_size(pyaudio.paInt16))
+    wf.setframerate(RATE)
+    # 写入数据
+    wf.writeframes(buff_data)
+    # 关闭文件
+    wf.close()
+    # 结束pyaudio
+    p.terminate()
 
 
 # 实时识别语音
 def callback(data, frame_count, time_info, status):
-    wave_data = read_buffer_data(data)
-    print(wave_data)
-    connect_socket(wave_data)
+    # wave_data = read_buffer_data(data)
+    save_buffer_data2wav(data)
     return data, pyaudio.paContinue
+
+
+def get_file_content(filePath):
+    with open(filePath, 'rb') as fp:
+        return fp.read()
 
 
 def record():
@@ -90,7 +95,13 @@ def record():
                     )
     stream.start_stream()
     while stream.is_active():
-        time.sleep(10)
+        text = client.asr(get_file_content(AUDIO_FILE), 'wav', RATE, {
+            'dev_pid': DEV_PID,
+        })
+        print(text)
+        # print(''.join(text['result']).strip('。'))
+
+        time.sleep(1)
     stream.stop_stream()
     stream.close()
     p.terminate()

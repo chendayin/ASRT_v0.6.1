@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@author: nl8590687
-语音识别API的HTTP服务器程序
 
-"""
 import http.server
 from SpeechModel251 import ModelSpeech
 from LanguageModel2 import ModelLanguage
@@ -29,7 +25,7 @@ class TestHTTPHandle(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-
+        print("get 方法被调用")
         buf = 'ASRT_SpeechRecognition API'
         self.protocal_version = 'HTTP/1.1'
 
@@ -53,7 +49,6 @@ class TestHTTPHandle(http.server.BaseHTTPRequestHandler):
         token = ''
         fs = 0
         wavs = []
-        # type = 'wavfilebytes' # wavfilebytes or python-list
 
         for line in datas_split:
             [key, value] = line.split('=')
@@ -63,8 +58,6 @@ class TestHTTPHandle(http.server.BaseHTTPRequestHandler):
                 fs = int(value)
             elif 'token' == key:
                 token = value
-            # elif('type' == key):
-            #	type = value
             else:
                 print(key, value)
 
@@ -74,8 +67,6 @@ class TestHTTPHandle(http.server.BaseHTTPRequestHandler):
             buf = bytes(buf, encoding="utf-8")
             self.wfile.write(buf)
             return
-
-        # if('python-list' == type):
         if len(wavs) > 0:
             r = self.recognize([wavs], fs)
         else:
@@ -86,12 +77,7 @@ class TestHTTPHandle(http.server.BaseHTTPRequestHandler):
         else:
             buf = '403'
 
-        # print(datas)
-
         self._set_response()
-
-        # buf = '<!DOCTYPE HTML> \n<html> \n<head>\n<title>Post page</title>\n</head> \n<body>Post Data:%s  <br />Path:%s\n</body>  \n</html>'%(datas,self.path)
-        print(buf)
         buf = bytes(buf, encoding="utf-8")
         self.wfile.write(buf)
 
@@ -106,10 +92,6 @@ class TestHTTPHandle(http.server.BaseHTTPRequestHandler):
             r = ''
             print('[*Message] Server raise a bug. ')
         return r
-        pass
-
-    def recognize_from_file(self, filename):
-        pass
 
 
 def start_server(ip, port):

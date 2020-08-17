@@ -100,7 +100,6 @@ def main():
     while running:
         time.sleep(2)
         wave_data = read_buffer_data(b''.join(record._frames))
-        print(wave_data)
         record._frames = []
         txt = recognition(wave_data)
         print(txt, end='')

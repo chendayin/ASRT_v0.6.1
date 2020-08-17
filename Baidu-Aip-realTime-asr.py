@@ -11,6 +11,8 @@ from aip import AipSpeech
 API_KEY = 'PotZGWTqDa6bLyAOYVUUersG'
 SECRET_KEY = 'sBzLocvhlgGhR9wtkj4jisefYTFkwkLb'
 APP_ID = '21930573'
+
+
 AUDIO_FILE = 'out.wav'
 DEV_PID = 1537
 CHUNK = 1024
@@ -112,7 +114,7 @@ def main():
     record.start()
     running = True
     while running:
-        time.sleep(1)
+        time.sleep(2)
         save_buffer_data2wav(b''.join(record._frames))
         record._frames = []
         try:

@@ -4,6 +4,11 @@
 import http.server
 from SpeechModel251 import ModelSpeech
 from LanguageModel2 import ModelLanguage
+from aip import AipNlp
+
+API_KEY = 'jly4sifius2N8eufoXKigo2H'
+SECRET_KEY = 'ZaK0pgQloBBc8k9KBYHx1AEmflMpoPO1'
+APP_ID = '22062243'
 
 datapath = './'
 modelpath = 'model_speech/'
@@ -12,6 +17,16 @@ ms.LoadModel(modelpath + 'speech_model251_e_0_step_625000.model')
 
 ml = ModelLanguage('model_language')
 ml.LoadModel()
+
+
+def text_corrector(text):
+    client = AipNlp(appId=APP_ID, apiKey=API_KEY, secretKey=SECRET_KEY)
+    result = client.ecnet(text)
+    print(result)
+    if "error_code" in result:
+        pass
+    else:
+        return result['item']['correct_query']
 
 
 class TestHTTPHandle(http.server.BaseHTTPRequestHandler):
@@ -88,6 +103,7 @@ class TestHTTPHandle(http.server.BaseHTTPRequestHandler):
             print(r_speech)
             str_pinyin = r_speech
             r = ml.SpeechToText(str_pinyin)
+            r = text_corrector(r)
         except:
             r = ''
             print('[*Message] Server raise a bug. ')

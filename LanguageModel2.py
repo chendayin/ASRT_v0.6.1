@@ -1,12 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@author: nl8590687
-语音识别的语言模型
 
-基于马尔可夫模型的语言模型
-
-"""
 import platform as plat
 
 
@@ -38,9 +32,7 @@ class ModelLanguage:  # 语音模型类
     def SpeechToText(self, list_syllable):
         '''
         语音识别专用的处理函数
-
         实现从语音拼音符号到最终文本的转换
-
         使用恐慌模式处理一次解码失败的情况
         '''
         length = len(list_syllable)
@@ -147,8 +139,6 @@ class ModelLanguage:  # 语音模型类
                             list_words_2.append(tuple_word)
 
                 list_words = list_words_2
-        # print(list_words,'\n')
-        # print(list_words)
         for i in range(0, len(list_words)):
             for j in range(i + 1, len(list_words)):
                 if list_words[i][1] < list_words[j][1]:

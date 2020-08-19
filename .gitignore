@@ -1,5 +1,4 @@
 /dataset
 *.wav
 /train
-/record
 .idea

@@ -13,7 +13,7 @@ API_KEY = 'PotZGWTqDa6bLyAOYVUUersG'
 SECRET_KEY = 'sBzLocvhlgGhR9wtkj4jisefYTFkwkLb'
 APP_ID = '21930573'
 
-AUDIO_FILE = 'train/'
+AUDIO_FILE = 'dataset/data_yumeizi/'
 DEV_PID = 1537
 CHUNK = 1024
 CHANNELS = 1

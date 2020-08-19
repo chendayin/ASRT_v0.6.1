@@ -7,7 +7,7 @@ compile = re.compile(r"[\d，。！？a-zA-Z%]")
 
 
 def readWaveList():
-    txts = glob.glob("../train/*.txt")
+    txts = glob.glob("../dataset/data_yumeizi/*.txt")
     print(f"共有{len(txts)}条语音")
     wave_texts = []
     for txt in txts:
@@ -22,13 +22,17 @@ def readWaveList():
 
 
 def readWaveList2():
-    txts = glob.glob("../train/*.txt")
+    txts = glob.glob("../dataset/data_yumeizi/*.txt")
+    wave_path = []
     for txt in txts:
-        print(txt)
+        wave_path.append(
+            txt.split("\\")[1].split(".")[0] + ' ' + 'yumeizi/' + txt.split("\\")[1].split(".")[0] + '.wav' + '\n')
+    with open("../dataset/yumeizi/train.wav.txt", "w", encoding="utf8") as f:
+        f.writelines(wave_path)
 
 
 def main():
-    # readWaveList()
+    readWaveList()
     readWaveList2()
 
 

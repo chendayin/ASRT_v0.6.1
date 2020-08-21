@@ -2,3 +2,4 @@
 *.wav
 /train
 .idea
+/vlc-3.0.11

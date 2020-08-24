@@ -5,8 +5,7 @@ import certifi
 
 def main():
     es = Elasticsearch(["localhost:9200"])
-    body = {"name": 'lucy', 'sex': 'female', 'age': 10}
-    es.index(index="index", doc_type="type", body=body)
+    print(es.info())
 
 
 if __name__ == '__main__':

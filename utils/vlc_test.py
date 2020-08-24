@@ -117,7 +117,7 @@ if "__main__" == __name__:
     # 在线播放流媒体视频
     # https://ip3021529957.mobgslb.tbcache.com/liveng.alicdn.com/mediaplatform/2727b42e-d965-4bce-b1cc-cc0c33e54213.flv?auth_key=1597911969-0-0-fb26a76289ac86963fad47bb1ac5f757&ali_redirect_ex_hot=100
     player.play(
-        "http://liveng.alicdn.com/mediaplatform/7ca3ec87-4eca-46f7-a028-b03cbb534bf3.flv?auth_key=1600476325-0-0-b0289b892f05a2f6473e2c7523c5a3ff&viewer_id=0&trace_id=0b116d0415979130482814071e6b48")
+        "https://ip3263662263.mobgslb.tbcache.com/livecb.alicdn.com/mediaplatform/edc889b7-e8f6-4e08-94fc-a7fa274aadaf.flv?auth_key=1598230462-0-0-0d967850d0959337d807971684bd88af&ali_redirect_ex_hot=100")
     # 防止当前进程退出
     while True:
         pass
